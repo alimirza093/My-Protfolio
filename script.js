@@ -271,3 +271,103 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add fade-in class to body
     document.body.classList.add('loaded');
 });
+
+// ============================================
+// TYPING ANIMATION
+// Alternating typing and deleting effect
+// ============================================
+(function() {
+    'use strict';
+    
+    // Text array with exact texts as specified
+    const texts = [
+        'Currently Pursuing BSCS At GC University Faisalabad. Skilled In HTML, CSS, And JavaScript For Front-End Development. Exploring C, C++, Python, and Agentic AI ChatBots.',
+        'I BUILD  What YOUR COMPETITORS WISH They HAD'
+    ];
+    
+    // Dynamic typing speeds based on text length (longer = faster, shorter = slower for readability)
+    const getTypingSpeed = (textLength) => {
+        // Longer text (>100 chars): faster speed (35ms per character)
+        // Shorter text (≤100 chars): slower speed (80ms per character for better readability)
+        return textLength > 100 ? 35 : 80;
+    };
+    
+    // Delete speed (consistent for all texts)
+    const DELETE_SPEED = 25;
+    const PAUSE_AFTER_TYPE = 800; // Pause after fully typing a text (reduced from 2000ms)
+    const PAUSE_AFTER_DELETE = 200; // Pause after fully deleting a text (reduced from 500ms)
+    
+    // State variables
+    let currentTextIndex = 0;
+    let currentCharIndex = 0;
+    let isDeleting = false;
+    let animationTimeout = null;
+    
+    // Get the typing text element
+    const typingElement = document.getElementById('typing-text');
+    
+    // Function to type text character by character
+    function typeText() {
+        const currentText = texts[currentTextIndex];
+        
+        if (!typingElement) return;
+        
+        if (!isDeleting) {
+            // Typing mode: add characters one by one
+            typingElement.textContent = currentText.substring(0, currentCharIndex + 1);
+            currentCharIndex++;
+            
+            // Get dynamic typing speed based on current text length
+            const typingSpeed = getTypingSpeed(currentText.length);
+            
+            // Check if we've finished typing the current text
+            if (currentCharIndex >= currentText.length) {
+                // Pause after fully typing, then switch to deleting
+                isDeleting = true;
+                animationTimeout = setTimeout(typeText, PAUSE_AFTER_TYPE);
+            } else {
+                // Continue typing with dynamic speed
+                animationTimeout = setTimeout(typeText, typingSpeed);
+            }
+        } else {
+            // Deleting mode: remove characters one by one
+            typingElement.textContent = currentText.substring(0, currentCharIndex - 1);
+            currentCharIndex--;
+            
+            // Check if we've finished deleting the current text
+            if (currentCharIndex <= 0) {
+                // Switch to next text and start typing
+                isDeleting = false;
+                currentTextIndex = (currentTextIndex + 1) % texts.length;
+                animationTimeout = setTimeout(typeText, PAUSE_AFTER_DELETE);
+            } else {
+                // Continue deleting
+                animationTimeout = setTimeout(typeText, DELETE_SPEED);
+            }
+        }
+    }
+    
+    // Initialize typing animation when DOM is ready
+    function initTypingAnimation() {
+        if (typingElement) {
+            // Start with empty text
+            typingElement.textContent = '';
+            // Begin typing after a short delay
+            animationTimeout = setTimeout(typeText, 500);
+        }
+    }
+    
+    // Start animation when DOM is loaded
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initTypingAnimation);
+    } else {
+        initTypingAnimation();
+    }
+    
+    // Clean up on page unload (optional, prevents memory leaks)
+    window.addEventListener('beforeunload', function() {
+        if (animationTimeout) {
+            clearTimeout(animationTimeout);
+        }
+    });
+})();

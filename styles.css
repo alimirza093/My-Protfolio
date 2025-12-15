@@ -276,6 +276,16 @@ body::before {
     max-width: 600px;
 }
 
+/* Typing animation text styling */
+#typing-text {
+    display: inline-block;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 80%, #6366f1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
 .hero-image {
     display: flex;
     justify-content: center;
@@ -905,7 +915,7 @@ section {
     }
 
     .services-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
         gap: 1rem;
     }
 
