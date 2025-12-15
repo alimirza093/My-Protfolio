@@ -281,8 +281,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Text array with exact texts as specified
     const texts = [
-        'Currently Pursuing BSCS At GC University Faisalabad. Skilled In HTML, CSS, And JavaScript For Front-End Development. Exploring C, C++, Python, and Agentic AI ChatBots.',
-        'I BUILD  What YOUR COMPETITORS WISH They HAD'
+        'I BUILD  What YOUR COMPETITORS WISH They HAD',
+        'Currently Pursuing BSCS At GC University Faisalabad. Skilled In HTML, CSS, And JavaScript For Front-End Development. Exploring C, C++, Python, and Agentic AI ChatBots.'
     ];
     
     // Dynamic typing speeds based on text length (longer = faster, shorter = slower for readability)
